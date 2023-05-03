@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<style>
+  [type="button"]{color: white;
+    background: black;
+    margin-top: 100px;
+    border-radius:0.5em;
+    padding:5px 20px;
+  }
+  div a{
+    color:white;
+  }
+</style>
+
+<div class="jumbotron" style="margin-top: 50px;">
+  <div class="container text-center">
+    <h3>로그인 후 사용해주세요.</h3>
+    <div><a href='/signin/'>
+      <button type="button">로그인 페이지로 이동</button></a></div>
+  </div>
+</div>
+
+{% endblock %}

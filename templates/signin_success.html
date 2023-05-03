@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+  [type="button"]{color: white;
+    background: black;
+    margin-top: 50px;
+    border-radius:0.5em;
+    padding:5px 20px;
+  }
+  div a{
+    color:white;
+  }
+</style>
+
+<div class="jumbotron" style="margin-top: 50px;">
+  <div class="container text-center">
+    <h1>로그인되었습니다.</h1>
+    <div><a href='/index/'>
+      <button type="button">메인페이지로 이동</button></a></div>
+  </div>
+</div>
+
+{% endblock %}

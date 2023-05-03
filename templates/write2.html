@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+[type="submit"]{
+  color: white;
+  background: black;
+  margin-top: 10px;
+}
+[type="button"]{color: white;
+  background: black;
+  margin-top: 100px;
+  border-radius:0.5em;
+  padding:5px 20px;
+}
+div a{
+  color: white;
+}
+</style>
+
+
+<div class="jumbotron">
+  <div class="container text-center">
+    {% if user.is_authenticated and user.is_superuser %}
+    <form method="post" action="/app/write2/" id="write2-form">
+      <input type="hidden" name="id" value="{{ app2.id }}">
+      {% csrf_token %}
+      <div class="form-group" style="margin-top:10px;">
+        <label for="category2">카테고리:</label>
+        <input type="radio" id="a" name="category2" value="공지사항">
+        <label for="a">공지사항</label>
+        <input type="radio" id="b" name="category2" value="기타">
+        <label for="b">기타</label><br>
+      </div>
+      <div class="form-group">
+        <label for="title2"></label>
+        <input type="text" class="form-control" name="title2" id="title2" 
+        placeholder="제목을 입력해주세요.">
+      </div>
+      <div class="form-group">
+        <label for="content2"></label>
+        <textarea class="form-control" rows="8" name="content2" id="content2"
+        placeholder="내용을 입력해주세요.">{{ app2.content }}</textarea></div>
+      <button type="submit" id="complete2" class="btn btn-primary btn-block">등록</button>
+    </form>
+    {% else %}
+    <div class="jumbotron" style="margin-top: 50px;">
+      <div class="container text-center">
+        <h3>관리자만 글을 작성할 수 있습니다.</h3>
+        <div><a href='/app/notice/'>
+          <button type="button">공지글 목록으로 이동</button></a></div>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</div>
+<script>
+  // 폼 제출 시 실행할 함수 등록
+  document.getElementById('write2-form').addEventListener('submit', function(event) {
+  // 카테고리가 선택되지 않았을 경우, 자유 카테고리로 설정
+  if (!document.getElementById('a').checked && !document.getElementById('b').checked) {
+    document.getElementById('b').checked = true;
+  }
+});
+</script>
+{% endblock %}

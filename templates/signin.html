@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<style>
+
+  .form-group {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 80px;
+    margin: 50px;
+  }
+  
+  .form-group label {
+    margin-right: 20px;
+    width: 80px;
+  }
+  
+  .form-group input {
+    width: 500px;
+    height: 50px;
+  }
+  
+  button {
+    margin: 20px;
+  }
+  
+</style>
+
+  <div class="jumbotron">
+    {% comment %} <div class="container text-center">
+      <form method="post" action="/signin/">    {% endcomment %}
+        <div class="container text-center">
+        <form action="/signin/" method="POST" class="container">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="email">Email:</label>
+          <input type="text" class="form-control" id="email" placeholder="Email을 입력해주세요." name="email" required>
+          <div class="valid-feedback">Valid.</div>
+          <div class="invalid-feedback">Please fill out this field.</div>
+        </div>
+        <div class="form-group">
+          <label for="pwd">Password:</label>
+          <input type="password" class="form-control" id="pwd" placeholder="비밀번호를 입력해주세요."name="pwd" required>
+        </div>
+           <label class="form-check-label">
+              <input class="form-check-input" type="checkbox" name="remember" required> 나는 로봇이 아닙니다.
+               {% comment %} 나는 로봇이 아닙니다 -> fake {% endcomment %}
+               <div class="valid-feedback">Valid.</div>
+              <div class="invalid-feedback">Check this checkbox to continue.</div>
+              </label>
+        <div>
+        <button class="btn btn-primary btn-block" id="signin">Sign in</button>
+        <button type = 'button' class="btn btn-danger btn-block"
+          onclick='location="/signup/"'>Sign up</button></div>
+      </form>
+    </div>
+  </div>
+
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+  .panel-body{
+    font-weight: bold;
+    font-size: 20px;
+    text-align:center;
+    margin-bottom: 30px;
+  }
+  .panel-footer{
+    font-size: 16px;
+    height: 200px;
+  }
+  .btn{
+    color: white;
+    background: black;
+    border-radius:0.5em;
+    padding:5px 20px;
+    display: inline-block;
+  }
+
+</style>
+
+<div class="container" style='margin-top:30px;'>
+  <div class="panel-group">
+  <div class="panel-header" style="display: flex; justify-content: space-between;">
+    <div>no.<b>{{ app2.id }}</b>&nbsp;<b>{{ app2.category }}</b>
+    </div>
+    <div style="display: flex; flex-direction: column;">
+      <div>작성자: <b>{{ app2.user.name }}</b>
+      </div>
+      <div>작성일: <b>{{ app2.date|date:"Y-m-d H:i:s" }}</b>
+      </div>
+    </div>
+  </div>
+  <div class="panel-body" style="background-color: #F5F5F5">{{ app2.title }}
+  </div>
+  <div class="panel-footer" style="background-color: #F5F5F5">{{ app2.content|linebreaksbr }}
+  </div>
+</div>
+<div class="container" style="text-align: right; margin-top: 10px" >
+  <a href='/app/notice/' class="btn btn-default" id="notice">목록</a>
+  <a href='/app/update2/{{ app2.id }}/' class="btn btn-default" id="update2">수정</a>
+  <form method="post" action="/app/update/" id="update-form">
+    {% csrf_token %}
+    <input type="hidden" name="id" value="{{ app2.id }}">
+  </form>
+</div>
+{% endblock %}
+

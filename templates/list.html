@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+  .jumbotron {
+    height: 700px;
+  }
+
+  .btn {
+    color: white;
+    background: black;
+    border-radius: 0.5em;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 5px 20px;
+  }
+
+  .table {
+    margin-top: 30px;
+    margin-bottom: 20px;
+  }
+</style>
+
+<div class="jumbotron">
+  <div class="container text-right">
+    <a href='/app/write/' class="btn btn-default" id="list" style='float:right;'>글쓰기</a>
+  </div>
+  <div class="container text-center">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th width="50" style="text-align:center;">No</th>
+          <th width="120" style="text-align:center;">카테고리</th>
+          <th width="400" style="text-align:center;">제목</th>
+          <th width="120" style="text-align:center;">작성자</th>
+          <th width="120" style="text-align:center;">작성일</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for app in app_list %}
+        <tr onclick="location.href='/app/detail/{{ app.id }}/'" style="cursor:pointer;">
+          <td>{{ app.id }}</td>
+          <td>{{ app.category }}</td>
+          <td>{{ app.title }}</a></td>
+          <td>{{ app.user.name }}</td>
+          <td>{{ app.date|date:"Y-m-d H:i:s" }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <div style="text-align: right; font-size: 15px;">
+      {% for p in pages %}
+      {% if p == page %}
+      <span style='font-weght: bold; float:'>{{p}}</span>
+      {% else %}
+      <a href='/app/list/?page={{p}}'>
+        <span>{{p}}</span>
+      </a>
+      {% endif %}
+      {% endfor %}
+      {% if data.has_next %}
+      <a href='/app/list/?page={{ data.next_page_number }}' style='float:right;'>
+        &nbsp;&nbsp;[다음]</a>
+      {% comment %} 다음페이지 없으면 비활성화 {% endcomment %}
+      {% else %} 
+      <span style='float:right; color:gray;'>&nbsp;&nbsp;[다음]</span>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+
+
+{% endblock %}

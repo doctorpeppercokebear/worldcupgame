@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+{% block content %}
+<style> 
+  @import url('https://fonts.googleapis.com/css2?family=Dongle&family=Gaegu&family=Gugi&family=Roboto:wght@300&family=Sunflower:wght@300&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Dongle&family=Gaegu&family=Gugi&family=Roboto:wght@300&display=swap');
+  .card {
+    margin: 70px;
+  }
+  .my-image {
+    height: 300px;
+    object-fit: cover;
+  }
+  .card-body {
+    text-align: right;
+  }
+  .card-title {
+    text-align: left;
+  }
+  h5 {
+    font-size: 20px;
+  }
+  h6 {
+    font-size: 19px;
+    width: 100%;
+    text-align: right;
+  }
+  p {
+    font-size: 18px
+  }
+  .heart-icon {
+    color: #FF4A77;
+  }
+</style>
+
+
+<body>
+  <br>
+  <h6 style="font-weight: normal" i class="fas fa-user"> 전체 방문자수: {{ total_visitors }}명&nbsp;</h6>
+<div class="row" style="width: 100%">
+  <div class="col-sm-6">
+    <div class="card">
+      <img class="card-img-top my-image" src="https://cdn.pixabay.com/photo/2016/03/06/13/04/if-the-1240330__340.jpg">
+      <div class="card-body">
+        <h5 class="card-title">라면 월드컵 게임</h5>
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <p style="text-align:left;"><i class="fas fa-heart heart-icon"></i> 조회수: <span id="noodle_clicks">{{ noodle_clicks }}</span></p>
+          <a href="/noodle_worldcup/" class="btn btn-danger btn-lg" role="button" onclick="gameStart('noodle')">▶Game Start</a>    
+        </div>     
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6">
+      <div class="card">
+      <img class="card-img-top my-image" src="https://cdn.pixabay.com/photo/2019/09/26/18/23/republic-of-korea-4506696__340.jpg">
+      <div class="card-body">
+        <h5 class="card-title">치킨 월드컵 게임</h5>
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <p style="text-align:left;"><i class="fas fa-heart heart-icon"></i> 조회수: <span id="chicken_clicks">{{ chicken_clicks }}</span></p>
+        <a href="/chicken_worldcup/" class="btn btn-danger btn-lg" role="button" onclick="gameStart('chicken')">▶Game Start</a>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<div class="row" style="width: 100%">
+    <div class="col-sm-6">
+    <div class="card">
+      <img class="card-img-top my-image" src="https://cdn.pixabay.com/photo/2014/09/16/20/59/potato-chips-448737__340.jpg">
+      <div class="card-body">
+        <h5 class="card-title">과자 월드컵 게임</h5>
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <p style="text-align:left;"><i class="fas fa-heart heart-icon"></i> 조회수: <span id="snack_clicks">{{ snack_clicks }}</span></p>
+        <a href="/snack_worldcup/" class="btn btn-danger btn-lg" role="button" onclick="gameStart('snack')">▶Game Start</a>
+      </div>
+    </div>
+  </div>
+</div>
+  <div class="col-sm-6">
+    <div class="card">
+      <img class="card-img-top my-image" src="https://cdn.pixabay.com/photo/2015/10/30/14/03/pork-1014180__340.jpg">
+      <div class="card-body">
+        <h5 class="card-title">안주 월드컵 게임</h5>
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <p style="text-align:left;"><i class="fas fa-heart heart-icon"></i> 조회수: <span id="food_clicks">{{ food_clicks }}</span></p>
+        <a href="/food_worldcup/" class="btn btn-danger btn-lg" role="button" onclick="gameStart('food')">▶Game Start</a>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+  <script>
+
+    var noodleClicks = parseInt(localStorage.getItem('noodleClicks')) || 0;
+    var chickenClicks = parseInt(localStorage.getItem('chickenClicks')) || 0;
+    var snackClicks = parseInt(localStorage.getItem('snackClicks')) || 0;
+    var foodClicks = parseInt(localStorage.getItem('foodClicks')) || 0;
+  
+    function updateClicks() {
+      document.getElementById('noodle_clicks').textContent = noodleClicks;
+      document.getElementById('chicken_clicks').textContent = chickenClicks;
+      document.getElementById('snack_clicks').textContent = snackClicks;
+      document.getElementById('food_clicks').textContent = foodClicks;
+    }
+  
+    function gameStart(gameType) {
+      if (gameType === 'noodle') {
+        noodleClicks++;
+        localStorage.setItem('noodleClicks', noodleClicks);
+      } else if (gameType === 'chicken') {
+        chickenClicks++;
+        localStorage.setItem('chickenClicks', chickenClicks);
+      }
+        else if (gameType === 'snack') {
+        snackClicks++;
+        localStorage.setItem('snackClicks', snackClicks);
+      }
+        else if (gameType === 'food') {
+        foodClicks++;
+        localStorage.setItem('foodClicks', foodClicks);
+      }
+      updateClicks();
+    }
+  
+    updateClicks();
+  </script>
+</body>
+
+
+{% endblock %}
+

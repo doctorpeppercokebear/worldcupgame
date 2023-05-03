@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+[type="submit"]{
+  color: white;
+  background: black;
+  margin-top: 10px;
+}
+</style>
+
+<div class="jumbotron">
+  <div class="container text-center">
+    <form method="post" action="/app/update/{{ app.id }}/" id="update-form">
+      <input type="hidden" name="id" value="{{ app.id }}">
+      {% csrf_token %}
+      <div class="form-group" style="margin-top:10px;">
+        <label for="category" value="{{ app.category }}">카테고리:</label>
+        <input type="radio" id="a" name="category" value="건의사항" {% if app.category == '건의사항' %}checked{% endif %}>
+        <label for="a">건의사항</label>
+        <input type="radio" id="b" name="category" value="자유" {% if app.category == '자유' %}checked{% endif %}>
+        <label for="b">자유</label><br>
+      </div>
+      <div class="form-group">
+        <label for="title"></label>
+        <input type="text" class="form-control" name="title" id="title" value="{{ app.title }}">
+      </div>
+      <div class="form-group">
+        <label for="content"></label>
+        <textarea class="form-control" rows="8" name="content" id="content">{{ app.content }}</textarea>
+      </div>      
+      <button type="submit" id="complete" class="btn btn-primary btn-block">
+        수정</button>
+    </form>
+  </div>
+</div>
+<script>
+  // 폼 제출 시 실행할 함수 등록
+  document.getElementById('write-form').addEventListener('submit', function(event) {
+  // 카테고리가 선택되지 않았을 경우, 자유 카테고리로 설정
+  if (!document.getElementById('a').checked && !document.getElementById('b').checked) {
+    document.getElementById('b').checked = true;
+  }
+});
+</script>
+
+{% endblock %}

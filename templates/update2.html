@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+[type="submit"]{
+  color: white;
+  background: black;
+  margin-top: 10px;
+}
+[type="button"]{color: white;
+  background: black;
+  margin-top: 100px;
+  border-radius:0.5em;
+  padding:5px 20px;
+}
+div a{
+  color: white;
+}
+</style>
+
+<div class="jumbotron">
+  <div class="container text-center">
+    {% if user.is_authenticated and user.is_superuser %}
+    <form method="post" action="/app/update2/{{ app2.id }}/" id="update-form">
+      <input type="hidden" name="id" value="{{ app2.id }}">
+      {% csrf_token %}
+      <div class="form-group" style="margin-top:10px;">
+        <label for="category" value="{{ app2.category }}">카테고리:</label>
+        <input type="radio" id="a" name="category2" value="공지사항" {% if app2.category == '공지사항' %}checked{% endif %}>
+        <label for="a">공지사항</label>
+        <input type="radio" id="b" name="category2" value="기타" {% if app2.category == '기타' %}checked{% endif %}>
+        <label for="b">기타</label><br>
+      </div>
+      <div class="form-group">
+        <label for="title2"></label>
+        <input type="text" class="form-control" name="title2" id="title2" value="{{ app2.title }}">
+      </div>
+      <div class="form-group">
+        <label for="content2"></label>
+        <textarea class="form-control" rows="8" name="content2" id="content2">{{ app2.content }}</textarea>
+      </div>      
+      <button type="submit" id="complete" class="btn btn-primary btn-block">
+        수정</button>
+    </form>
+    {% else %}
+    <div class="jumbotron" style="margin-top: 50px;">
+      <div class="container text-center">
+        <h3>관리자만 글을 수정할 수 있습니다.</h3>
+        <div><a href='/app/notice/'>
+          <button type="button">공지글 목록으로 이동</button></a></div>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</div>
+<script>
+  // 폼 제출 시 실행할 함수 등록
+  document.getElementById('write-form').addEventListener('submit', function(event) {
+  // 카테고리가 선택되지 않았을 경우, 자유 카테고리로 설정
+  if (!document.getElementById('a').checked && !document.getElementById('b').checked) {
+    document.getElementById('b').checked = true;
+  }
+});
+</script>
+
+{% endblock %}

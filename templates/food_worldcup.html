@@ -1,0 +1,143 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>안주 월드컵</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dongle&family=Gaegu&family=Gugi&family=Roboto:wght@300&family=Sunflower:wght@300&display=swap');
+    
+        img {
+            width: 500px;
+            height: 500px;
+        }
+        .zoom {
+            animation: zoom-in-out 3s ease-in-out infinite;
+            transform-origin: center;
+          }
+          
+          @keyframes zoom-in-out {
+            0% {
+              transform: scale(0.5) rotate(0deg);
+            }
+            50% {
+              transform: scale(0.8) rotate(180deg);
+            }
+            100% {
+              transform: scale(0.5) rotate(360deg);
+            }
+          }
+    </style>
+</head>
+<body>
+
+    {% extends 'base.html' %}
+    {% block content %}
+    {%load static%}    
+    
+    <br>
+    <div style="text-align:right; margin-right:30px; font-size:25px;">
+        <a href="/index/">
+        <button type="button" class="btn-close" aria-label="Close"></button></div></a>
+    <div style="text-align: center; margin:10px; font-size: 42px;" >
+        <div style="font-family: 'Gaegu', cursive; font-size:35px;">
+            안주 월드컵 16강! "당신의 선택은?"
+        </div>
+        <div style="margin-right: 47%; float: right; font-size: 36px; font-family: 'Gaegu', cursive;">/16</div>
+        <div id="result" style="float: right; font-size: 36px; font-family: 'Gaegu', cursive;">1</div>
+    </div>
+
+    <div style="text-align: center; margin-top: 5%;">
+        <div id="game-over" style="display: none; margin:20px; font-size: 42px; font-family: 'Gaegu', cursive;">-END-</div>
+        <img id="image1" onclick="change(0); final_count();" alt="왼쪽 이미지">
+        <img id="vs2" style="width: 100px; height: 100px; margin-bottom: auto;" src="/static/image/vs2.jpg" alt="vs2 이미지">
+        <img id="image2" onclick="change(1); final_count();" alt="오른쪽 이미지">
+        <div id="container"></div>
+
+    </div>
+    
+    <script>
+        var images=[]
+		var sImages = []
+        var cnt = 0;
+		var num = 0;
+		var sNum = 0;
+		var cnt2 = 0;
+        var fcnt = 0;
+
+        function show() {
+
+            for(i=49; i<=64; i++)
+            {
+                images[i - 49]= i + ".jpg";
+            }
+            images.sort(function(a,b){return 0.5- Math.random()});
+            showImg(num);
+        }
+
+        show(0);
+
+        function showImg(num) {
+            document.getElementById('image1').src='/static/image/food/' + images[num];
+            document.getElementById('image2').src='/static/image/food/' + images[num+1];
+            cnt2++;
+        }
+
+        function change(n) {
+            if(cnt2<20)
+            {
+                cnt++;
+                if(n == 0)
+                    sImages[sNum++] = images[num];
+                else
+                    sImages[sNum++] = images[num+1];
+                num+=2;
+
+                showImg(num);
+
+                if(cnt == images.length/2){
+                    for(i=0; i<sImages.length; i++){
+                        images[i] = sImages[i];
+                        sImages[i] = null;
+                    }
+                    images.splice(cnt);
+                    cnt = 0;
+                    num = 0;
+                    sNum = 0;
+                    showImg(num);
+                }
+            }
+            const resultElement = document.getElementById('result');
+            let number = resultElement.innerText;
+            if(number != 16){
+                number = parseInt(number) + 1;
+            }
+            resultElement.innerText = number;
+        }
+
+        function final_count() {
+            fcnt += 1;
+            if(fcnt == 15){
+                const image = document.getElementById('image2');
+                const imgVs2 = document.getElementById('vs2');
+                image.remove();
+                imgVs2.remove();
+
+            
+                const lastImage = document.getElementById('image1');
+                lastImage.classList.add('zoom');
+                document.getElementById('game-over').style.display = "block";
+
+          
+            }
+        }
+
+   
+    </script>
+
+    {% endblock %}
+
+</body>
+</html>

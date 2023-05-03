@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<style>
+  [type="button"]{color: white;
+    background: black;
+    margin-top: 100px;
+    border-radius:0.5em;
+    padding:5px 20px;
+  }
+  div a{
+    color:white;
+  }
+  
+  </style>
+
+<div class="jumbotron" style="margin-top: 50px;">
+  <div class="container text-center">
+    <h3>공지글 수정이 완료되었습니다.</h3>
+    <div><a href='/app/notice/'>
+      <button type="button">공지사항 목록으로 이동</button></a></div>
+  </div>
+</div>
+
+{% endblock %}

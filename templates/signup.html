@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<style>
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.form-group {
+  display: flex;
+  height: 80px;
+  align-items: center;"
+  margin: 50px;
+}
+
+.form-group label {
+  margin-right: 20px;
+  width: 80px;
+}
+
+.form-group input {
+  width: 500px;
+  height: 50px;
+}
+button {
+  margin: 20px;
+  
+}
+.result-group {
+  display: flex;
+  height: 40px;
+  align-items: center;
+  margin-left: 132px;
+}
+</style>
+
+<div class="jumbotron">
+  <div class="container text-center">
+    <form method="post" action="/signup/">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <div style="display: flex;">
+          <input type="text" class="form-control" id="email" name="email" placeholder="Email을 입력해주세요."  style="margin-top: 15px">
+          <button type="button" class="btn btn-light" onclick="checkDuplicate()">중복확인</button>
+        </div>
+      </div>
+      <div class="result-group">
+        <span id="result"></span> <!-- 중복확인 결과를 표시할 요소 -->
+      </div>
+      <div class="form-group">
+        <label for="pwd">비밀번호:</label>
+        <input type="password" class="form-control" id="pwd" name="pwd" placeholder="비밀번호를 입력해주세요.">
+      </div>
+      <div class="form-group">
+        <label for="name">Name:</label>
+        <input type="text" class="form-control" id="name" name="name" placeholder="이름을 입력해주세요.">
+      </div>
+      <button class="btn btn-primary btn-block" id="signup" onclick="return checkInputs()">Sign Up</button>
+    </form>
+  </div>
+</div>
+
+<script>
+  function checkInputs() {
+    const email = document.getElementById('email').value;
+    const emailRegex = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
+    const pwd = document.getElementById('pwd').value;
+    const name = document.getElementById('name').value;
+    const resultElement = document.getElementById('result');
+    if (!emailRegex.test(email)) {
+      alert('이메일 형식이 올바르지 않습니다.');
+      return false;
+    }
+    if (!email || !pwd || !name) {
+      alert('모든 입력창을 채워주세요.');
+      return false;
+    }
+    if (resultElement.innerText === '이미 존재하는 아이디입니다.') {
+      alert('이미 등록된 이메일입니다.');
+      return false;
+    }
+    if (resultElement.innerText !== '사용 가능한 아이디입니다.') {
+      alert('이메일 중복확인을 해주세요.');
+      return false;
+    }
+    return true;
+}
+  
+  function checkDuplicate() {
+    const email = document.getElementById('email').value;
+    const emailRegex = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
+    if (!emailRegex.test(email)) {
+      alert('올바른 이메일 형식이 아닙니다.');
+      return;
+    }
+
+    fetch(`/email_check/?email=${email}`)
+      .then((res) => res.json())
+      .then((res) => {
+        const result = res.result;
+        const resultElement = document.getElementById('result');
+        if (result) {
+          resultElement.innerHTML = '이미 존재하는 아이디입니다.';
+          resultElement.style.color = 'red';
+        } else {
+          resultElement.innerHTML = '사용 가능한 아이디입니다.';
+          resultElement.style.color = 'green';
+        }
+      })
+      .catch((err) => console.error(err));
+  }
+</script>
+
+{% endblock %}
